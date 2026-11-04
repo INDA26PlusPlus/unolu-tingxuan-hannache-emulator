@@ -1,3 +1,4 @@
 emulator/build/*
-assembler/build/*
+assembler/target/*
+assembler/Cargo.lock
 
