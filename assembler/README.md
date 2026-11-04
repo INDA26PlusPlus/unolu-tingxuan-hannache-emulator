@@ -57,15 +57,15 @@ sub\[s\] rX rX
 
 0x05 | 1 if s else 0 | 9:6 reserved | src 5:3 | dest 2:0
 
-not
+not rX rX
 
 0x08 
 
-and
+and rX rX
 
 0x09
 
-or
+or rX rX
 
 0x0a
 
@@ -78,7 +78,6 @@ sw rX rX
 0x0f | 0 | 9:6 reserved | src 5:3 | dest 2:0
 
 b imm
-
 0x10 | 10:0 imm 
 
 bz imm
