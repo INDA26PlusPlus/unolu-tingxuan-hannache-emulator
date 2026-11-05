@@ -64,6 +64,15 @@ int main(int argc, char** argv) {
         assert(false);
     }
 
+    printf("r0: %04hx\n", cpustate.gp_reg[0]);
+    printf("r1: %04hx\n", cpustate.gp_reg[1]);
+    printf("r2: %04hx\n", cpustate.gp_reg[2]);
+    printf("r3: %04hx\n", cpustate.gp_reg[3]);
+    printf("r4: %04hx\n", cpustate.gp_reg[4]);
+    printf("r5: %04hx\n", cpustate.gp_reg[5]);
+    printf("r6: %04hx\n", cpustate.gp_reg[6]);
+    printf("r7: %04hx\n", cpustate.gp_reg[7]);
+
     switch (dec_inst.selected) {
       case EUNIT_ALU:
         {
@@ -97,7 +106,8 @@ int main(int argc, char** argv) {
       default:
         assert(false);
     }
-    if (dec_inst.operand0_type == OP_T_REG) {
+    if (dec_inst.operand0_type == OP_T_REG && !(dec_inst.selected == EUNIT_LSU && (dec_inst.eunit_opcode & 0x2) == LSU_MODE_STORE)) {
+      printf("WRITEBAKC\n");
       cpustate_set_gp_reg(&cpustate, x, dec_inst.operand0);
     }
     
