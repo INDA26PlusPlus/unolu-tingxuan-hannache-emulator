@@ -3,8 +3,6 @@
 #include <assert.h>
 #include <stdint.h>
 
-// Defined to shutup clangd which doesnt recognize the builtin
-#define __builtin_add_overflow(a, b, res) (true) 
 
 struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16_t y, const uint16_t sf) { 
   assert((opc_n & ~0x1f) == 0); // Unrecognized value (outside defined bit width)
@@ -22,6 +20,7 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
         r = __builtin_addc(x, y, 0, &carry);  
         new_sf |= carry; // Set carry flag [0]
         _Static_assert((uint16_t)true == 1, "Unexpected cast value from bool to uint16_t");
+        uint16_t _;
         new_sf |= ((uint16_t)__builtin_add_overflow((int16_t)x, (int16_t)y, &_))<<1; // Set signed overflow flag [1]  
       }
       break;
