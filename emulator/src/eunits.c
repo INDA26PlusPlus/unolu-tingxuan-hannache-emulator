@@ -27,24 +27,16 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
       }
       break;
     case ALUOPC_SUB:
-      {
-        r = x - y;
-      }
+      r = x - y;
       break;
     case ALUOPC_NOT:
-      {
-        r = ~x;
-      }
+      r = ~x;
       break;
     case ALUOPC_AND:
-      {
-        r = x & y;
-      }
+      r = x & y;
       break;
     case ALUOPC_OR:
-      {
-        r = x | y;
-      }
+      r = x | y;
       break;
     default:
       assert(false);
