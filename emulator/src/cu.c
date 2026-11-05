@@ -57,6 +57,18 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1_type = OP_T_REG;
       set_sf = instruction&(1<<10);
       break;
+    // sub\[s\] rX rX
+    // 0x05 | 1 if s else 0 | 9:6 reserved | src 5:3 | dest 2:0
+    case OPC_SUB:
+      printf("SUB\n");
+      selected = EUNIT_ALU;
+      eunit_opcode = ALUOPC_SUB;
+      operand0 = instruction&0x7; // ..00111 last three
+      operand0_type = OP_T_REG;
+      operand1 = (instruction>>3)&0x7;
+      operand1_type = OP_T_REG;
+      set_sf = instruction&(1<<10);
+      break;
     case OPC_HALT:
       printf("HALT\n");
       eunit_opcode = 0xff;
