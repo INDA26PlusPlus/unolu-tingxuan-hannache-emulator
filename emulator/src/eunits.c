@@ -3,17 +3,7 @@
 #include <assert.h>
 #include <stdint.h>
 
-/*
-add:
-  sf of the ALUOutput is set by the following conditions:
-    z = r == 0
-    c = 
-    o = 
-    n = r[31]
-
-
-*/
-
+// Defined to shutup clangd which doesnt recognize the builtin
 #define __builtin_add_overflow(a, b, res) (true) 
 
 struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16_t y, const uint16_t sf) { 
@@ -47,20 +37,49 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
 
 
 
-void lsu_store(const enum lsu_opsize_e opsz, const uint16_t x, const uint16_t y) {
+void lsu_store(struct CPUState* const cpustate, const enum lsu_opsize_e opsz, const uint16_t x, const uint16_t y) {
   assert((opsz & ~0x1) == 0); // Unrecognized enum value (outside defined bit width)
+  switch (opsz) {
+    case LSU_OPSZ_BYTE:
+      assert(false); // placeholder
+      break;
+    case LSU_OPSZ_WORD:
+      ((uint16_t*)cpustate->memory)[y/2] = x;      
+      break;
+  }
 }
 
-uint16_t lsu_load(const enum lsu_opsize_e opsz, const uint16_t x) {
+uint16_t lsu_load(struct CPUState* const cpustate, const enum lsu_opsize_e opsz, const uint16_t y) {
   assert((opsz & ~0x1) == 0); // Unrecognized enum value (outside defined bit width)
-
+  switch (opsz) {
+    case LSU_OPSZ_BYTE:
+      assert(false); // placeholder
+      break;
+    case LSU_OPSZ_WORD:
+      return ((uint16_t*)cpustate->memory)[y/2];      
+      break;
+  }
+  assert(false);
   return 0;
 }
 
-
-uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_t x) {
+/*
+x is the ip
+y is the offset
+returns new ip on the x-line
+*/
+uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_t x, const uint16_t y) {
   assert((opc & ~0xf) == 0); // Unrecognized enum value (outside defined bit width)
-
+  switch (opc) {
+    case BUOPC_UNCONDITIONAL:
+      break;
+    case BUOPC_ZERO:
+      if (!(sf&0x4)) {
+        return x;
+      }
+      break;
+  }
+  return alu_execute(ALUOPC_ADD, x, y, 0).r;
   return 0;
 }
 

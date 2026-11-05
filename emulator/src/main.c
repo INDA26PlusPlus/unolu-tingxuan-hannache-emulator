@@ -75,8 +75,19 @@ int main(int argc, char** argv) {
         }
         break;
       case EUNIT_LSU:
+        switch (dec_inst.eunit_opcode & 0x2) {
+          case LSU_MODE_LOAD:
+            x = lsu_load(&cpustate, dec_inst.eunit_opcode&0x1, y);
+            break;
+          case LSU_MODE_STORE:
+            lsu_store(&cpustate, dec_inst.eunit_opcode&0x1, x, y);
+            break;
+          default:
+            assert(false);
+        }
         break;
       case EUNIT_BU:
+        x = bu_execute(dec_inst.eunit_opcode, cpustate.sf_reg, x, y);
         break;
       case EUNIT_NONE:
         if (dec_inst.eunit_opcode == 0xff) {
