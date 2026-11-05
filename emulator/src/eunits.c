@@ -8,7 +8,7 @@
 
 struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16_t y, const uint16_t sf) { 
   assert((opc_n & ~0x1f) == 0); // Unrecognized value (outside defined bit width)
-  const bool neg = opc_n & 0x10;
+  // const bool neg = opc_n & 0x10;
   const enum alu_opcode_e opc = opc_n & 0xf;
   uint16_t r = 0;
   uint16_t new_sf = sf&~0xf; // Clear arithmetic flags
@@ -19,9 +19,9 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
       break;
     case ALUOPC_ADD:
       {
-        unsigned int carry = 0;
-        r = __builtin_addc(x, y, 0, &carry);  
-        new_sf |= carry; // Set carry flag [0]
+        uint32_t sum = (uint32_t)x + (uint32_t)y; // 32 so it can be bigger than 16, know if carry
+        r = (uint16_t)sum; // remove 16 undre bitar
+        new_sf |= (sum >> 16) & 1; // Set carry flag [0]
         _Static_assert((uint16_t)true == 1, "Unexpected cast value from bool to uint16_t");
         new_sf |= ((uint16_t)__builtin_add_overflow((int16_t)x, (int16_t)y, &_))<<1; // Set signed overflow flag [1]  
       }
@@ -104,6 +104,7 @@ uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_
       if (!(sf&0x1)) {
         return x;
       }
+      offset = (y ^ (((uint16_t)1) << (10))) - (((uint16_t)1) << (10));
       break;
   }
   return alu_execute(ALUOPC_ADD, x, offset, 0).r;
