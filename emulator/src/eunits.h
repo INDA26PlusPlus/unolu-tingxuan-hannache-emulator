@@ -31,7 +31,7 @@ enum eunit_e {
 /*
 opc_n: [4] negative?, [3:0] alu opcode (see alu_opcode_e)
 */
-struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16_t y); 
+struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16_t y, const uint16_t sf); 
 
 // [0] used
 enum lsu_opsize_e {
