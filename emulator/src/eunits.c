@@ -100,6 +100,11 @@ uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_
       }
       offset = (y ^ (((uint16_t)1) << (10))) - (((uint16_t)1) << (10)); // Sign extend from 11 bits to 16 bits
       break;
+    case BUOPC_CARRY:
+      if (!(sf&0x1)) {
+        return x;
+      }
+      break;
   }
   return alu_execute(ALUOPC_ADD, x, offset, 0).r;
   return 0;

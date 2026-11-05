@@ -171,6 +171,17 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
     case OPC_BC: // branch on condition
       printf("BC\n");
       selected = EUNIT_BU;
+      eunit_opcode = BUOPC_CARRY;
+      operand0 = IP_IDX;
+      operand0_type = OP_T_REG;
+      operand1 = instruction&0x7FF; 
+      operand1_type = OP_T_IMM;
+      break;
+    // bz imm
+    // 0x14 | 10:0 imm (signed)
+    case OPC_BZ: // branch on condition
+      printf("BZ\n");
+      selected = EUNIT_BU;
       eunit_opcode = BUOPC_ZERO;
       operand0 = IP_IDX;
       operand0_type = OP_T_REG;
