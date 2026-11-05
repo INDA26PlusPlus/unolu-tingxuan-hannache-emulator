@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "cpustate.h"
+
 struct ALUOutput {
   const uint16_t r;
   const uint16_t sf; 
@@ -39,20 +41,25 @@ enum lsu_opsize_e {
   LSU_OPSZ_WORD = 0x1,
 };
 
+enum lsu_mode_e {
+  LSU_MODE_LOAD = 0x0,
+  LSU_MODE_STORE = 0x2,
+};
+
 
 /*
-x is the address on the x-line
-y is the data on the y-line
+x is the data on the x-line
+y is the address on the y-line
 if opsz is LSU_OPSZ_BYTE then only the least significant byte of y is stored. 
 */
-void lsu_store(const enum lsu_opsize_e opsz, const uint16_t x, const uint16_t y);
+void lsu_store(struct CPUState* cpustate, const enum lsu_opsize_e opsz, const uint16_t x, const uint16_t y);
 
 /*
 x is the address on the x-line 
 the return is the data on the y-line
 if opsz is LSU_OPSZ_BYTE then only the least significant byte of y is stored. 
 */
-uint16_t lsu_load(const enum lsu_opsize_e opsz, const uint16_t x);
+uint16_t lsu_load(struct CPUState* const cpustate, const enum lsu_opsize_e opsz, const uint16_t y);
 
 // [3:0] used
 enum bu_opcode_e {
@@ -62,11 +69,11 @@ enum bu_opcode_e {
 
 /*
 The branching unit interfaces with the alu.
-It checks the condition, if it is true then it executes an operation on the alu.
-x is the offset on the x-line
-y is the new ip on the y-line
+It checks the condition, if it is true then it executes an operation on the alu and writes back the ip on the x-line.
+x is the ip on the x-line
+y is the offset on the y-line
 */
-uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_t x);
+uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_t x, const uint16_t y);
 
 
 #endif

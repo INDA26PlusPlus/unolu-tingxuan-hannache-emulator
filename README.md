@@ -28,6 +28,21 @@ imm = hexadecimal | bas10
 
 All opcodes not defined here are reserved
 
+0001 0111 1111 1000 movl 0xff r0
+0001 0000 0001 0001 movl 0x2 r1
+0010 0000 0000 1000 add r1 r0
+1111 1000 0000 0000 halt
+
+0000100000111000 mov r7 r0 (0x1002)
+0001000010000001 movl 16 r1
+0010010000001000 adds r1 r0
+0111000000000010 lw r0 r2
+0001000000010001 movl 2 r1
+0010010000001000 adds r1 r0
+0111100000000010 sw r0 r2
+1111100000000000 halt
+1111000011110000 data 0xf0f0
+
 nop
 0x00 | 10:0 reserved
 
@@ -37,29 +52,41 @@ mov rX rX
 movl imm rX (clears most significant byte)
 0x02 | 10:3 imm | 2:0 dest 
 
+movu imm rX 
+0x03 | 10:3 imm | 2:0 dest 
+
 add\[s\] rX rX
 0x04 | 1 if s else 0 | 9:6 reserved | src 5:3 | dest 2:0
 
 sub\[s\] rX rX
 0x05 | 1 if s else 0 | 9:6 reserved | src 5:3 | dest 2:0
 
-not
-0x08 
-and
-0x09
-or
-0x0a
+not rX
+0x08 | 9:3 reserved | dest 2:0
+and rX rX
+0x09 | 9:6 reserved | src 5:3 | dest 2:0
+or rX rX
+0x0a | 9:6 reserved | src 5:3 | dest 2:0
+
+lb rX rX (zeroes upper byte)
+0x0c | 0 | 9:6 reserved | src 5:3 | dest 2:0
+sb rX rX (stores lower byte)
+0x0d | 0 | 9:6 reserved | src 5:3 | dest 2:0
 
 lw rX rX
 0x0e | 0 | 9:6 reserved | src 5:3 | dest 2:0
 sw rX rX
 0x0f | 0 | 9:6 reserved | src 5:3 | dest 2:0
 
+
 b imm
-0x10 | 10:0 imm 
+0x10 | 10:0 imm (signed) 
+
+bc imm (branch carry)
+0x11 | 1 | 9:0 imm (signed)
 
 bz imm
-0x14 | 1 | 9:0 imm 
+0x14 | 1 | 9:0 imm (signed)
 
 halt
 0x1f | 10:0 reserved

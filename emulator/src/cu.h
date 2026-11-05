@@ -4,7 +4,6 @@
 #include "cpustate.h"
 #include "eunits.h"
 #include <stdint.h>
-#include <stdlib.h>
 
 
 enum opcode_e {
@@ -12,6 +11,9 @@ enum opcode_e {
   OPC_MOV = 0x01,
   OPC_MOVL = 0x02,
   OPC_ADD = 0x04,
+
+  OPC_LW = 0x0e,
+  OPC_SW = 0x0f,
 
   OPC_HALT = 0x1f,
 };
@@ -32,9 +34,6 @@ struct DecodedInstruction {
   const uint16_t operand1;
   const bool set_sf;
 };
-
-void halt(void);
-
 
 void cu_fetch_instruction(struct CPUState* const cpustate);
 

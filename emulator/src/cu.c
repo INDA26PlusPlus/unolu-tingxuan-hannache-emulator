@@ -1,9 +1,12 @@
 #include "cu.h"
+#include "cpustate.h"
+#include "eunits.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <assert.h>
 
 void cu_fetch_instruction(struct CPUState* const cpustate) {
+  assert(cpustate->gp_reg[IP_IDX] % 2 == 0); // ensure pointer is word-aligned
   cpustate->inst_reg = ((uint16_t*)cpustate->memory)[cpustate->gp_reg[IP_IDX]/2];
   cpustate->gp_reg[IP_IDX] += 2;
 }
@@ -57,6 +60,24 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
     case OPC_HALT:
       printf("HALT\n");
       eunit_opcode = 0xff;
+      break;
+    case OPC_LW:
+      printf("LW\n");
+      selected = EUNIT_LSU;
+      eunit_opcode = LSU_OPSZ_WORD | LSU_MODE_LOAD;
+      operand0 = instruction&0x7;
+      operand0_type = OP_T_REG;
+      operand1 = (instruction>>3)&0x7;
+      operand1_type = OP_T_REG;
+      break;
+    case OPC_SW:
+      printf("SW\n");
+      selected = EUNIT_LSU;
+      eunit_opcode = LSU_OPSZ_WORD | LSU_MODE_STORE;
+      operand0 = instruction&0x7;
+      operand0_type = OP_T_REG;
+      operand1 = (instruction>>3)&0x7;
+      operand1_type = OP_T_REG;
       break;
     default:
       fprintf(stderr, "Invalid opcode %02hhx (inst=%04hx)\n", 5, instruction);
