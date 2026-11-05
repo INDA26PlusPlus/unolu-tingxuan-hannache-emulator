@@ -10,6 +10,7 @@ enum opcode_e {
   OPC_NOP = 0x00,
   OPC_MOV = 0x01,
   OPC_MOVL = 0x02,
+  OPC_MOVU = 0x03,
   OPC_ADD = 0x04,
   OPC_SUB = 0x05,
 
