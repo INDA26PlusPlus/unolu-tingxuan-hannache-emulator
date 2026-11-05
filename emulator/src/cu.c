@@ -124,6 +124,17 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1 = (instruction>>3)&0x7;
       operand1_type = OP_T_REG;
       break;
+    // sb rX rX (stores lower byte)
+    // 0x0d | 0 | 9:6 reserved | src 5:3 | dest 2:0
+    case OPC_SB:
+      printf("SB\n");
+      selected = EUNIT_LSU;
+      eunit_opcode = LSU_OPSZ_BYTE | LSU_MODE_STORE; // size byte(8) or word(16)
+      operand0 = instruction&0x7; // ..00111 last three
+      operand0_type = OP_T_REG;
+      operand1 = (instruction>>3)&0x7;
+      operand1_type = OP_T_REG;
+      break;
 
     case OPC_HALT:
       printf("HALT\n");
