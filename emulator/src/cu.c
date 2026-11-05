@@ -47,8 +47,6 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1 = (instruction>>3)&0xff;
       operand1_type = OP_T_IMM;
       break;
-    // case OPC_MOVU:
-    //   printf("MOVU\n");
     case OPC_ADD:
       printf("ADD\n");
       selected = EUNIT_ALU;

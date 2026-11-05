@@ -25,11 +25,6 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
         new_sf |= ((uint16_t)__builtin_add_overflow((int16_t)x, (int16_t)y, &_))<<1; // Set signed overflow flag [1]  
       }
       break;
-    case ALUOPC_SUB:
-      {
-        r = x - y;
-      }
-      break;
     default:
       assert(false);
   }
