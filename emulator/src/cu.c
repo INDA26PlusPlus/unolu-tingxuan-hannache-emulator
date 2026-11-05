@@ -47,6 +47,15 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1 = (instruction>>3)&0xff;
       operand1_type = OP_T_IMM;
       break;
+    // case OPC_MOVU:
+    //   printf("MOVU\n");
+    //   selected = EUNIT_ALU;
+    //   eunit_opcode = ALUOPC_PASSTHROUGH;
+    //   operand0 = instruction&0x7;
+    //   operand0_type = OP_T_REG;
+    //   operand1 = (instruction>>3)&0xff;
+    //   operand1_type = OP_T_IMM;
+    //   break;
     case OPC_ADD:
       printf("ADD\n");
       selected = EUNIT_ALU;
@@ -69,6 +78,18 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1_type = OP_T_REG;
       set_sf = instruction&(1<<10);
       break;
+    // or rX rX
+    // 0x0a | 9:6 reserved | src 5:3 | dest 2:0
+    case OPC_OR:
+      printf("OR\n");
+      selected = EUNIT_ALU;
+      eunit_opcode = ALUOPC_OR;
+      operand0 = instruction&0x7; // ..00111 last three
+      operand0_type = OP_T_REG;
+      operand1 = (instruction>>3)&0x7;
+      operand1_type = OP_T_REG;
+      break;
+
     case OPC_HALT:
       printf("HALT\n");
       eunit_opcode = 0xff;
