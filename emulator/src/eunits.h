@@ -65,6 +65,7 @@ uint16_t lsu_load(struct CPUState* const cpustate, const enum lsu_opsize_e opsz,
 enum bu_opcode_e {
   BUOPC_UNCONDITIONAL = 0x0,
   BUOPC_ZERO = 0x1,
+  BUOPC_CARRY = 0x2,
 };
 
 /*
