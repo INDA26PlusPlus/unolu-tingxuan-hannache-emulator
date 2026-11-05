@@ -90,6 +90,17 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand0 = instruction&0x7;
       operand0_type = OP_T_REG;
       break;
+    // and rX rX
+    // 0x09 | 9:6 reserved | src 5:3 | dest 2:0
+    case OPC_AND:
+      printf("AND\n");
+      selected = EUNIT_ALU;
+      eunit_opcode = ALUOPC_AND;
+      operand0 = instruction&0x7;
+      operand0_type = OP_T_REG;
+      operand1 = (instruction>>3)&0x7;
+      operand1_type = OP_T_REG;
+      break;
     // or rX rX
     // 0x0a | 9:6 reserved | src 5:3 | dest 2:0
     case OPC_OR:

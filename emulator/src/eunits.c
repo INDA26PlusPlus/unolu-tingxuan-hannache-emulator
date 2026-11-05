@@ -36,6 +36,11 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
         r = ~x;
       }
       break;
+    case ALUOPC_AND:
+      {
+        r = x & y;
+      }
+      break;
     case ALUOPC_OR:
       {
         r = x | y;
