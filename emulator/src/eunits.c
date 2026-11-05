@@ -12,6 +12,7 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
   const enum alu_opcode_e opc = opc_n & 0xf;
   uint16_t r = 0;
   uint16_t new_sf = sf&~0xf; // Clear arithmetic flags
+  // x is operand0, y is operand1
   switch (opc) {
     case ALUOPC_PASSTHROUGH:
       r = y;
@@ -28,6 +29,11 @@ struct ALUOutput alu_execute(const uint8_t opc_n, const uint16_t x, const uint16
     case ALUOPC_SUB:
       {
         r = x - y;
+      }
+      break;
+    case ALUOPC_NOT:
+      {
+        r = ~x;
       }
       break;
     case ALUOPC_OR:
