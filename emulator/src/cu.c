@@ -167,7 +167,16 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1_type = OP_T_IMM;
       break;
     // bc imm (branch carry)
-    // 0x11 | 1 | 9:0 imm (signed)
+    // 0x11 | 10:0 imm (signed)
+    case OPC_BC: // branch on condition
+      printf("BC\n");
+      selected = EUNIT_BU;
+      eunit_opcode = BUOPC_ZERO;
+      operand0 = IP_IDX;
+      operand0_type = OP_T_REG;
+      operand1 = instruction&0x7FF; 
+      operand1_type = OP_T_IMM;
+      break;
     case OPC_HALT:
       printf("HALT\n");
       eunit_opcode = 0xff;
