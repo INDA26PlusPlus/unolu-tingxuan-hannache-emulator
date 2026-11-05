@@ -25,6 +25,9 @@ enum opcode_e {
   OPC_LW = 0x0e,
   OPC_SW = 0x0f,
 
+  OPC_B = 0x10,
+  OPC_BC = 0x11,
+  OPC_BZ = 0x14,
   OPC_HALT = 0x1f,
 };
 

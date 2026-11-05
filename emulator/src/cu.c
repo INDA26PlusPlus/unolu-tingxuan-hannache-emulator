@@ -136,10 +136,6 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand1_type = OP_T_REG;
       break;
 
-    case OPC_HALT:
-      printf("HALT\n");
-      eunit_opcode = 0xff;
-      break;
     case OPC_LW:
       printf("LW\n");
       selected = EUNIT_LSU;
@@ -157,6 +153,24 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
       operand0_type = OP_T_REG;
       operand1 = (instruction>>3)&0x7;
       operand1_type = OP_T_REG;
+      break;
+    
+    // b imm
+    // 0x10 | 10:0 imm (signed) 
+    case OPC_B: // branch/jump
+      printf("B\n");
+      selected = EUNIT_BU;
+      eunit_opcode = BUOPC_UNCONDITIONAL;
+      operand0 = IP_IDX;
+      operand0_type = OP_T_REG;
+      operand1 = instruction&0x7FF; // 11 bits? ok
+      operand1_type = OP_T_IMM;
+      break;
+    // bc imm (branch carry)
+    // 0x11 | 1 | 9:0 imm (signed)
+    case OPC_HALT:
+      printf("HALT\n");
+      eunit_opcode = 0xff;
       break;
     default:
       fprintf(stderr, "Invalid opcode %02hhx (inst=%04hx)\n", 5, instruction);
