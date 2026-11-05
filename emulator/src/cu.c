@@ -51,7 +51,7 @@ struct DecodedInstruction cu_decode_instruction(struct CPUState* const cpustate)
     case OPC_MOVU:
       printf("MOVU\n");
       selected = EUNIT_ALU;
-      eunit_opcode = ALUOPC_OR;
+      eunit_opcode = ALUOPC_PASSTHROUGH;
       operand0 = instruction&0x7;
       operand0_type = OP_T_REG;
       operand1 = ((instruction>>3)&0xff) << 8;
