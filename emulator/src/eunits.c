@@ -94,17 +94,17 @@ uint16_t bu_execute(const enum bu_opcode_e opc, const uint16_t sf, const uint16_
     case BUOPC_UNCONDITIONAL:
       offset = (y ^ (((uint16_t)1) << (10))) - (((uint16_t)1) << (10)); // Sign extend from 11 bits to 16 bits
       break;
-    case BUOPC_ZERO: // 11 bit offset with [10] sign bit
+    case BUOPC_ZERO: // 10 bit offset with [9] sign bit
       if (!(sf&0x4)) {
         return x;
       }
-      offset = (y ^ (((uint16_t)1) << (10))) - (((uint16_t)1) << (10)); // Sign extend from 11 bits to 16 bits
+      offset = (y ^ (((uint16_t)1) << (9))) - (((uint16_t)1) << (9)); // Sign extend from 10 bits to 16 bits
       break;
     case BUOPC_CARRY:
       if (!(sf&0x1)) {
         return x;
       }
-      offset = (y ^ (((uint16_t)1) << (10))) - (((uint16_t)1) << (10));
+      offset = (y ^ (((uint16_t)1) << (9))) - (((uint16_t)1) << (9));
       break;
   }
   return alu_execute(ALUOPC_ADD, x, offset, 0).r;
