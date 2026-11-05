@@ -60,7 +60,7 @@ void lsu_store(struct CPUState* const cpustate, const enum lsu_opsize_e opsz, co
   assert((opsz & ~0x1) == 0); // Unrecognized enum value (outside defined bit width)
   switch (opsz) {
     case LSU_OPSZ_BYTE:
-      assert(false); // placeholder
+      ((uint8_t*)cpustate->memory)[y] = x;
       break;
     case LSU_OPSZ_WORD:
       ((uint16_t*)cpustate->memory)[y/2] = x;      
@@ -72,7 +72,7 @@ uint16_t lsu_load(struct CPUState* const cpustate, const enum lsu_opsize_e opsz,
   assert((opsz & ~0x1) == 0); // Unrecognized enum value (outside defined bit width)
   switch (opsz) {
     case LSU_OPSZ_BYTE:
-      assert(false); // placeholder
+      return ((uint8_t*)cpustate->memory)[y];      
       break;
     case LSU_OPSZ_WORD:
       return ((uint16_t*)cpustate->memory)[y/2];      

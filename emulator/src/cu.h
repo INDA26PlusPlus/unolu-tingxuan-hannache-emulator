@@ -20,6 +20,7 @@ enum opcode_e {
   OPC_AND = 0x09,
   OPC_OR = 0x0a,
 
+  OPC_LB = 0x0c,
   OPC_LW = 0x0e,
   OPC_SW = 0x0f,
 
