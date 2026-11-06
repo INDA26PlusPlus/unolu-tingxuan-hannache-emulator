@@ -8,13 +8,26 @@
 
 enum opcode_e {
   OPC_NOP = 0x00,
+
   OPC_MOV = 0x01,
   OPC_MOVL = 0x02,
-  OPC_ADD = 0x04,
+  OPC_MOVU = 0x03,
 
+  OPC_ADD = 0x04,
+  OPC_SUB = 0x05,
+
+  OPC_NOT = 0x08,
+  OPC_AND = 0x09,
+  OPC_OR = 0x0a,
+
+  OPC_LB = 0x0c,
+  OPC_SB = 0x0d,
   OPC_LW = 0x0e,
   OPC_SW = 0x0f,
 
+  OPC_B = 0x10,
+  OPC_BC = 0x11,
+  OPC_BZ = 0x14,
   OPC_HALT = 0x1f,
 };
 

@@ -83,10 +83,10 @@ b imm
 0x10 | 10:0 imm (signed) 
 
 bc imm (branch carry)
-0x11 | 1 | 9:0 imm (signed)
+0x11 | 10:0 imm (signed)
 
 bz imm
-0x14 | 1 | 9:0 imm (signed)
+0x14 | 10:0 imm (signed)
 
 halt
 0x1f | 10:0 reserved
